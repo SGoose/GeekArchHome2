@@ -15,6 +15,24 @@ public interface ResponseSerializer {
 
      }
 
+     default String acceptAnswer(){
+         HttpResponse httpResponse1 = new HttpResponse.BuilderResponse()
+                 .withHttpCode("HTTP/1.1\n")
+                 .withStatusCode("200 ")
+                 .withStatus("OK ")
+                 .withContentChar("Content-Type: text/html; charset=utf-8\n"+"\n")
+                 .build();
+         return httpResponse1.getAll();
+     }
+     default String nonAcceptAnswer(){
+         HttpResponse httpResponse2 = new HttpResponse.BuilderResponse()
+                 .withHttpCode("HTTP/1.1\n")
+                 .withStatusCode("404 ")
+                 .withStatus("NOT FOUND ")
+                 .withContentChar("Content-Type: text/html; charset=utf-8\n"+"\n")
+                 .build();
+         return httpResponse2.getAll();
+     }
     default Reader badAnswerResponse(Path path) throws IOException{
         return new StringReader("<h1>Файл не найден</h1>");
     }

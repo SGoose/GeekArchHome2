@@ -34,14 +34,14 @@ public class RequestHandler implements Runnable, RequestParser, ResponseSerializ
         HttpResponse httpResponse = new HttpResponse(socketService);
         if (!Files.exists(path)) {
             try {
-                httpResponse.getSocketService().writeResponse(httpResponse.getStatus(), badAnswerResponse(path));
+                httpResponse.getSocketService().writeResponse(nonAcceptAnswer(), badAnswerResponse(path));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
         try {
-            httpResponse.getSocketService().writeResponse(httpResponse.getStatus(), badAnswerResponse(path));
+            httpResponse.getSocketService().writeResponse(acceptAnswer(), answerResponse(path));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

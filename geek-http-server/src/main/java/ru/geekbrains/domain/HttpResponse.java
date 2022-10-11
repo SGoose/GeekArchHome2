@@ -2,78 +2,84 @@ package ru.geekbrains.domain;
 
 import ru.geekbrains.SocketService;
 
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 public class HttpResponse {
 
-    private int statusCode;
-
     private String http;
-    private String status;
+    private String statusFile;
     private String headers;
-    private final SocketService socketService;
+    private SocketService socketService;
+    private String statusCode;
 
-    public HttpResponse(String file, SocketService socketService, int statusCode, String http, String headers, String status) {
-        this.statusCode = statusCode;
-        this.http = http;
-        this.headers = headers;
-        this.status = status;
-        this.socketService = socketService;
-        this.file = file;
-    }
+    private String status;
 
+    private String contentCharset;
 
     public void setStatus(String status) {
-        this.status = status;
+        this.statusFile = statusFile;
+    }
+    private HttpResponse(){
+
     }
 
     public HttpResponse(SocketService socketService) {
-
         this.socketService = socketService;
     }
 
-    public void setStatusCode(int statusCode) {
-        this.statusCode = statusCode;
-    }
+
+
 
     public SocketService getSocketService() {
         return socketService;
     }
 
-    public void setHttp(String http) {
-        this.http = http;
-    }
-
-    public void setHeaders(String headers) {
-        this.headers = headers;
-    }
-    private String file;
-
-
     public String getHttp() {
         return http;
     }
 
-    public String getHeaders() {
-        return headers;
+    public String getStatusCode() {
+        return statusCode;
     }
-
-    // TODO
-    public String getFile() {
-        return file = ("HTTP/1.1 200 OK\n" +
-                "Content-Type: text/html; charset=utf-8\n" +
-                "\n");
-    }
-
-
 
     public String getStatus() {
-        return status= ("HTTP/1.1 404 NOT_FOUND\n" +
-                "Content-Type: text/html; charset=utf-8\n" +
-                "\n");
+        return status;
+    }
+
+    public String getContentCharset() {
+        return contentCharset;
+    }
+    public String getAll(){
+        String all = getHttp()+getStatusCode()+getStatus()+getContentCharset();
+        return all;
+    }
+    public static class BuilderResponse {
+
+
+        private HttpResponse httpResponse;
+
+        public BuilderResponse() {
+            this.httpResponse =  new HttpResponse();
+        }
+
+        public BuilderResponse withHttpCode(String http){
+            this.httpResponse.http = http;
+            return this;
+        }
+        public BuilderResponse withStatusCode(String statusCode){
+            this.httpResponse.statusCode = statusCode;
+            return this;
+        }
+        public BuilderResponse withStatus(String status){
+            this.httpResponse.status = status;
+            return this;
+        }
+        public BuilderResponse withContentChar(String contentCharset){
+            this.httpResponse.contentCharset = contentCharset;
+            return this;
+        }
+        public HttpResponse build(){
+            return this.httpResponse;
+        }
+
     }
 
 }
