@@ -9,8 +9,9 @@ import java.util.List;
 public interface RequestParser {
 
 
-    public default String Parser(List<String> request){
+    public default Path Parser(String WWW , List<String> request){
         String[] parts = request.get(0).split(" ");
-        return parts[1];
+        Path path = Paths.get(WWW,  parts[1]);
+        return path;
     }
 }
