@@ -34,7 +34,8 @@ public class RequestHandler implements Runnable, RequestParser, ResponseSerializ
         HttpRequest httpRequest = new HttpRequest(socketService);
         HttpResponse httpResponse = new HttpResponse(socketService);
         UselessBridge uselessBridge = new UselessBridge();
-        Path path = Parser(uselessBridge.threadParser(currentThread.getName()), httpRequest.getRequest());
+        uselessBridge.threadParser(currentThread.getName());
+        Path path = Parser(Memento.getWWW(), httpRequest.getRequest());
         if (!Files.exists(path)){
             try {
                 httpResponse.getSocketService().writeResponse(nonAcceptAnswer(), badAnswerResponse(path));
@@ -44,6 +45,7 @@ public class RequestHandler implements Runnable, RequestParser, ResponseSerializ
         }
         try {
             httpResponse.getSocketService().writeResponse(acceptAnswer(), answerResponse(path));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
