@@ -1,5 +1,6 @@
 package ru.geekbrains;
 
+import ru.geekbrains.domain.DataConnection;
 import ru.geekbrains.domain.Mapper;
 import ru.geekbrains.logger.ConsoleLogger;
 import ru.geekbrains.logger.Logger;
@@ -14,10 +15,11 @@ public class HttpServer {
     private static final Logger logger = new ConsoleLogger();
 
     public static void main(String[] args) throws SQLException {
-        Mapper mapper = new Mapper();
+
+        Mapper mapper = new Mapper(DataConnection.connection);
         Scanner scanner = new Scanner(System.in);
         String[] scn = scanner.nextLine().split(" ");
-        if (mapper.checkInfo(scn[0], scn[1])){
+        if (mapper.checkInfoWithMapper(Integer.parseInt(scn[0]), scn[1]).isPresent()){
             serverStart();
         }
     }
